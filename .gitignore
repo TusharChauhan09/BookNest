@@ -1,0 +1,63 @@
+# Node modules
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+client/logs
+client/*.log
+server/logs
+server/*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+client/.DS_Store
+server/.DS_Store
+
+# dotenv environment variables
+.env
+.env.*
+client/.env
+client/.env.*
+server/.env
+server/.env.*
+
+# Vite cache
+.vite
+client/.vite
+
+# Build output
+dist/
+build/
+client/dist/
+client/build/
+server/dist/
+server/build/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+client/.vscode/
+client/.idea/
+server/.vscode/
+server/.idea/
+
+# Misc
+*.local
+client/*.local
+server/*.local
+
+# Package lock files (optional, if you want to ignore them)
+# client/package-lock.json
+# server/package-lock.json 
