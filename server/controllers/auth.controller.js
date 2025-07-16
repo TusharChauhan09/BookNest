@@ -1,9 +1,135 @@
-export const signup = async (req, res) => {}
+import { z } from "zod";
+import bcrypt from "bcryptjs";
 
-export const signin = async (req, res) => {}
+import User from "../model/user.model.js";
+import generateToken from "../lib/gen.js";
 
-export const signout = async (req, res) => {}
+const schemaSignUp = z.object({
+  email: z.string().email({ message: "Please provide a valid email address" }),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+  fullName: z.string({ message: "Full name is required" }),
+});
 
-export const updateProfile = async (req, res) => {}
+const schemaSignIn = z.object({
+  email: z.string().email({ message: "Please provide a valid email address" }),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
 
-export const checkAuth = async (req, res) => {} 
+export const signup = async (req, res) => {
+  try {
+    const result = schemaSignUp.safeParse(req.body);
+    if (!result.success) {
+      return res.status(400).json({
+        message: "Validation failed",
+        errors: result.error.errors.map((err) => ({
+          path: err.path.join("."),
+          message: err.message,
+        })),
+      });
+    }
+    const { email, password, fullName } = result.data;
+
+    const user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({
+        message: "User already exists",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await User.create({
+      email,
+      password: hashedPassword,
+      fullName,
+    });
+
+    if (!newUser) {
+      return res.status(400).json({
+        message: "Invalid user data",
+      });
+    }
+
+    generateToken(newUser._id, res);
+    return res.status(201).json({
+      message: "User created successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error!!!",
+    });
+    console.log("error in signup controller", error.message);
+  }
+};
+
+export const signin = async (req, res) => {
+  try {
+    const result = schemaSignIn.safeParse(req.body);
+    if (!result.success) {
+      return res.status(400).json({
+        message: "Validation failed",
+        errors: result.error.errors.map((err) => ({
+          path: err.path.join("."),
+          message: err.message,
+        })),
+      });
+    }
+    const { email, password } = result.data;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid email or password",
+      });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res.status(400).json({
+        message: "Invalid email or password",
+      });
+    }
+
+    generateToken(user._id, res);
+    return res.status(200).json({
+      message: "User signed in successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error!!!",
+    });
+    console.log("error in signin controller", error.message);
+  }
+};
+
+export const signout = async (req, res) => {
+  try {
+    res.cookie("jwt", "", {
+      httpOnly: true,
+      maxAge: 0,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV !== "development",
+    });
+    return res.status(200).json({
+      message: "User signed out successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error!!!",
+    });
+    console.log("error in signout controller", error.message);
+  }
+};
+
+export const updateProfile = async (req, res) => {};
+
+export const checkAuth = async (req, res) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error!!!",
+    });
+    console.log("error in checkAuth controller", error.message);
+  }
+};
