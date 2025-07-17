@@ -1,1 +1,57 @@
 @import "tailwindcss";
+
+:root {
+  --color-bg: var(--color-white);
+  --color-text: var(--color-black);
+  --color-accent: var(--color-light-green);
+
+  --color-white: #ffffff;
+  --color-black: #222222;
+  --color-light-green: #a8ffb0;
+  --color-dark-green: #064e3b;
+}
+
+.dark {
+  --color-bg: var(--color-black);
+  --color-text: var(--color-white);
+  --color-accent: var(--color-dark-green);
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background 0.2s, color 0.2s;
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+.text-accent {
+  color: var(--color-accent);
+}
+
+/* Utility classes for direct use */
+.bg-light-green {
+  background-color: var(--color-light-green);
+}
+.bg-dark-green {
+  background-color: var(--color-dark-green);
+}
+.bg-black {
+  background-color: var(--color-black);
+}
+.bg-white {
+  background-color: var(--color-white);
+}
+.text-light-green {
+  color: var(--color-light-green);
+}
+.text-dark-green {
+  color: var(--color-dark-green);
+}
+.text-black {
+  color: var(--color-black);
+}
+.text-white {
+  color: var(--color-white);
+}
