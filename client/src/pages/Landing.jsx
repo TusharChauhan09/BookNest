@@ -1,11 +1,8 @@
-import React from 'react'
+import React from "react";
+import Books from "../components/Books/Books";
 
 const Landing = () => {
-  return (
-    <div>
-        <h1>Landing</h1>
-    </div>
-  )
-}
+  return <div className=""></div>;
+};
 
-export default Landing
+export default Landing;

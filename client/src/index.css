@@ -1,20 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Aladin&family=Lexend+Giga&family=Oswald:wght@200..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Winky+Rough:ital,wght@0,300..900;1,300..900&display=swap");
+
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Winky Rough";
+  src: url("./fonts/WinkyRough-VariableFont_wght.ttf") format("truetype");
+  font-weight: 300 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Winky Rough";
+  src: url("./fonts/WinkyRough-Italic-VariableFont_wght.ttf") format("truetype");
+  font-weight: 300 900;
+  font-style: italic;
+}
+
 :root {
-  --color-bg: var(--color-white);
-  --color-text: var(--color-black);
-  --color-accent: var(--color-light-green);
+  --color-bg: #ffffff; /* white */
+  --color-text: #222222; /* black */
+  --color-accent: #4ade80; /* less light green */
 
   --color-white: #ffffff;
   --color-black: #222222;
-  --color-light-green: #a8ffb0;
-  --color-dark-green: #064e3b;
+  --color-primary: #4ade80; /* less light green */
+  --color-secondary: #fdeedc;
+  font-family: "Winky Rough", sans-serif;
 }
 
 .dark {
-  --color-bg: var(--color-black);
-  --color-text: var(--color-white);
-  --color-accent: var(--color-dark-green);
+  --color-bg: #000000; /* black */
+  --color-text: #ffffff; /* white */
+  --color-accent: #14532d; /* less dark green */
 }
 
 body {
@@ -30,28 +46,45 @@ body {
   color: var(--color-accent);
 }
 
-/* Utility classes for direct use */
-.bg-light-green {
-  background-color: var(--color-light-green);
+.bg-peach-100 {
+  background-color: #fff0e5;
 }
-.bg-dark-green {
-  background-color: var(--color-dark-green);
+
+.bg-pink-100 {
+  background-color: #fee9e5;
 }
-.bg-black {
-  background-color: var(--color-black);
+
+.bg-blue-100 {
+  background-color: #eaf2ff;
 }
-.bg-white {
-  background-color: var(--color-white);
+
+.bg-blue-600 {
+  background-color: #5d5fef;
 }
-.text-light-green {
-  color: var(--color-light-green);
+
+.lgtheme {
+  background-color: #4ade80 !important;
 }
-.text-dark-green {
-  color: var(--color-dark-green);
+
+.dgtheme {
+  background-color: #14532d !important;
 }
-.text-black {
-  color: var(--color-black);
+
+.bookcard-bg {
+  background-color: #fff;
 }
-.text-white {
-  color: var(--color-white);
+.dark .bookcard-bg {
+  background-color: #000;
+}
+
+.bookcard-text {
+  color: #222;
+}
+.dark .bookcard-text {
+  color: #fff;
+}
+
+.bookcard-shadow {
+  box-shadow: 0 8px 32px 0 rgba(60, 60, 60, 0.18),
+    0 1.5px 6px 0 rgba(0, 0, 0, 0.1);
 }
