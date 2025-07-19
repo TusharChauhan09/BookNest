@@ -1,9 +1,11 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../store/useTheme";
 import logo from "../assets/react.svg";
-import { LogIn } from "lucide-react";
+import { LogIn, LogOut } from "lucide-react";
+import { useAuth } from "../store/useAuth";
+import DashboardBtn from "./DashboardBtn";
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -19,6 +21,14 @@ function ThemeToggle() {
 }
 
 const NavBar = () => {
+  const { authUser, signout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signout();
+    navigate("/signin");
+  };
+
   return (
     <nav
       className="fixed top-0 left-0 right-0 z-50 mb-20 max-w-4xl mx-auto flex items-center justify-between px-6 py-3 rounded-full mt-4 bg-bg text-text shadow border border-gray-200 dark:border-gray-700"
@@ -46,13 +56,26 @@ const NavBar = () => {
           About
         </Link>
         <ThemeToggle />
-        <Link
-          to="/signin"
-          className="ml-2 px-3 py-1.5 rounded-full bg-accent text-white font-semibold shadow hover:scale-105 transition-transform flex items-center gap-1"
-        >
-          <LogIn size={18} />
-          <span className="hidden sm:inline">Login</span>
-        </Link>
+        {authUser ? (
+          <>
+            <DashboardBtn />
+            <button
+              onClick={handleLogout}
+              className="ml-2 px-3 py-1.5 rounded-full bg-accent text-white font-semibold shadow border-2 border-accent hover:scale-105 transition-transform flex items-center gap-1"
+            >
+              <LogOut size={18} />
+              <span className="hidden sm:inline">Logout</span>
+            </button>
+          </>
+        ) : (
+          <Link
+            to="/signin"
+            className="ml-2 px-3 py-1.5 rounded-full bg-accent text-white font-semibold shadow border-2 border-accent hover:scale-105 transition-transform flex items-center gap-1"
+          >
+            <LogIn size={18} />
+            <span className="hidden sm:inline">Login</span>
+          </Link>
+        )}
       </div>
     </nav>
   );

@@ -10,10 +10,8 @@ export const protectRoute = (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    
-
-
+    req.user = decoded; // Attach user info to request
+    next(); // Allow request to proceed
   } catch (error) {
     console.log("Error in protectRoute middleware", error.message);
     return res.status(401).json({ message: "Internal Error" });

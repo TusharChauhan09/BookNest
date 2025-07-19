@@ -2,7 +2,7 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 
 import User from "../model/user.model.js";
-import generateToken from "../lib/gen.js";
+import { generateToken } from "../lib/gen.js";
 
 const schemaSignUp = z.object({
   email: z.string().email({ message: "Please provide a valid email address" }),
@@ -52,6 +52,12 @@ export const signup = async (req, res) => {
 
     generateToken(newUser._id, res);
     return res.status(201).json({
+      details: {
+        _id: newUser._id,
+        email: newUser.email,
+        fullName: newUser.fullName,
+        createdAt: newUser.createdAt,
+      },
       message: "User created successfully",
     });
   } catch (error) {
@@ -92,6 +98,11 @@ export const signin = async (req, res) => {
 
     generateToken(user._id, res);
     return res.status(200).json({
+      details: {
+        _id: user._id,
+        email: user.email,
+        fullName: user.fullName,
+      },
       message: "User signed in successfully",
     });
   } catch (error) {
@@ -125,7 +136,11 @@ export const updateProfile = async (req, res) => {};
 
 export const checkAuth = async (req, res) => {
   try {
-    res.status(200).json(req.user);
+    const user = await User.findById(req.user.userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({
       message: "Server error!!!",
