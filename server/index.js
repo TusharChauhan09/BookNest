@@ -31,12 +31,12 @@ app.use("/api/auth", authRoutes);
 
 app.use("/api/books", bookRoutes);
 
-if(process.env.NODE_ENV==="production"){
-  app.use(express.static(path.join(__dirname,"../clienr","dist")));
-  
-  app.get("*",(req,res)=>{
-    res.sendFile(path.join(__dirname,"../client","dist","index.html"));
-  })
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client", "dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
+  });
 }
 
 app.listen(PORT, () => {
