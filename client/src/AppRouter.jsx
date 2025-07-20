@@ -78,21 +78,6 @@ function AppRouter() {
           <Route path="/books/:id" element={<h1>books</h1>} />
           <Route path="/settings" element={<h1>settings</h1>} />
           <Route path="/profile" element={<h1>profile</h1>} />
-          {/* Catch-all route for undefined paths */}
-          <Route
-            path="*"
-            element={
-              <div className="text-center text-2xl text-red-600 py-20 flex flex-col items-center gap-4">
-                traveller you are lost
-                <a
-                  href="/"
-                  className="mt-4 px-6 py-2 bg-accent text-white rounded-full shadow hover:bg-accent/90 transition"
-                >
-                  Go Home
-                </a>
-              </div>
-            }
-          />
         </Routes>
         <Toaster />
       </div>
