@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 
 import User from "../model/user.model.js";
 import { generateToken } from "../lib/gen.js";
+import cloudinary from "../lib/cloudinary.js";
 
 const schemaSignUp = z.object({
   email: z.string().email({ message: "Please provide a valid email address" }),
@@ -132,7 +133,47 @@ export const signout = async (req, res) => {
   }
 };
 
-export const updateProfile = async (req, res) => {};
+export const updateUser = async (req, res) => {
+  try {
+    const { profilePic, fullName, email } = req.body;
+    const userId = req.user.userId;
+    console.log("Updating user with ID:", userId);
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is missing" });
+    }
+    // At least one field must be provided
+    if (!profilePic && !fullName && !email) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "At least one field (profilePic, fullName, email) is required",
+        });
+    }
+    // Prepare update object
+    const updateObj = {};
+    if (profilePic) {
+      const uploadResponse = await cloudinary.uploader.upload(profilePic);
+      console.log("Cloudinary profilePic URL:", uploadResponse.secure_url);
+      updateObj.profilePic = uploadResponse.secure_url;
+    }
+    if (fullName) updateObj.fullName = fullName;
+    if (email) updateObj.email = email;
+    console.log("Update object:", updateObj);
+    // update the user
+    const updatedUser = await User.findByIdAndUpdate(userId, updateObj, {
+      new: true,
+    });
+    console.log("Updated user:", updatedUser);
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: "Server error!!!" });
+    console.log("error in updateUser controller", error.message);
+  }
+};
 
 export const checkAuth = async (req, res) => {
   try {

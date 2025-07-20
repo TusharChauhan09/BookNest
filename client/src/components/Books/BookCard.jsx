@@ -1,11 +1,9 @@
 import React from "react";
 
-const BookCard = ({ book }) => {
+const BookCard = ({ book, onAdd }) => {
   if (!book) return null;
   return (
-    <div
-      className="relative w-80 min-h-[500px] rounded-3xl overflow-hidden bookcard-bg bookcard-shadow border border-gray-300 dark:border-gray-700 flex flex-col transition-transform duration-200 hover:-translate-y-1 group bookcard-text"
-    >
+    <div className="relative w-80 min-h-[500px] rounded-3xl overflow-hidden bookcard-bg bookcard-shadow border border-gray-300 dark:border-gray-700 flex flex-col transition-transform duration-200 hover:-translate-y-1 group bookcard-text">
       {/* Gradient border on hover */}
       <div className="absolute inset-0 rounded-3xl pointer-events-none border-2 border-transparent group-hover:border-accent group-hover:shadow-accent/20 group-hover:shadow-lg transition-all duration-200" />
       {/* Image section */}
@@ -19,9 +17,7 @@ const BookCard = ({ book }) => {
         />
       </div>
       {/* Details section */}
-      <div
-        className="flex flex-col gap-2 p-5 flex-1 z-10 bookcard-bg bookcard-text"
-      >
+      <div className="flex flex-col gap-2 p-5 flex-1 z-10 bookcard-bg bookcard-text">
         <h2 className="font-bold text-xl mb-1 line-clamp-1 text-accent group-hover:underline">
           {book.title}
         </h2>
@@ -88,7 +84,10 @@ const BookCard = ({ book }) => {
           )}
         </div>
       </div>
-      <button className="bg-accent text-white rounded-xl py-2 px-4 font-bold hover:scale-105 hover:bg-accent/90 transition-transform shadow w-[2/3] tracking-wide text-base mt-auto mb-4 mx-4">
+      <button
+        className="bg-accent text-white rounded-xl py-2 px-4 font-bold hover:scale-105 hover:bg-accent/90 transition-transform shadow w-[2/3] tracking-wide text-base mt-auto mb-4 mx-4"
+        onClick={() => onAdd && onAdd(book)}
+      >
         Add
       </button>
     </div>

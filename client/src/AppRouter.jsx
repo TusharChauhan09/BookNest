@@ -1,10 +1,11 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useTheme } from "./store/useTheme";
 import { useAuth } from "./store/useAuth";
 import { Toaster } from "react-hot-toast";
 
 import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 
 import Landing from "./pages/Landing";
 import Inventory from "./pages/Inventory";
@@ -18,6 +19,13 @@ function AppRouter() {
     useAuth.getState().checkAuth(); // Ensure authUser is set on app load
   }, []);
 
+  const location = useLocation();
+  const hideFooterPrefixes = ["/dashboard", "/signin", "/signup"];
+  const currentPath = location.pathname.toLowerCase().replace(/\/+$/, "");
+  const shouldShowFooter = !hideFooterPrefixes.some((prefix) =>
+    currentPath.startsWith(prefix)
+  );
+
   return (
     <div className="min-h-screen">
       <NavBar />
@@ -27,7 +35,7 @@ function AppRouter() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={ <SignIn />} />
+          <Route path="/signin" element={<SignIn />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Inventory" element={<Inventory />} />
           <Route path="/books/:id" element={<h1>books</h1>} />
@@ -36,6 +44,7 @@ function AppRouter() {
         </Routes>
         <Toaster />
       </div>
+      {shouldShowFooter && <Footer />}
     </div>
   );
 }
