@@ -14,7 +14,7 @@ const router = express.Router();
 router.get("/", getAllBooks);
 
 // Get books by title (search)
-router.get("/search", getBookByTitle);
+router.get("/search/all", getBookByTitle);
 
 // Add a book to a user's personal library
 router.post("/user", addUserBook);
