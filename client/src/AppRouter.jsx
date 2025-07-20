@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useTheme } from "./store/useTheme";
 import { useAuth } from "./store/useAuth";
 import { Toaster } from "react-hot-toast";
@@ -12,6 +12,22 @@ import Inventory from "./pages/Inventory";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
+
+function ProtectedRoute({ children }) {
+  const { authUser, isCheckingAuth } = useAuth();
+  const location = useLocation();
+  if (isCheckingAuth) return null; // or a loader
+  if (!authUser)
+    return <Navigate to="/signin" state={{ from: location }} replace />;
+  return children;
+}
+
+function PublicRoute({ children }) {
+  const { authUser, isCheckingAuth } = useAuth();
+  if (isCheckingAuth) return null; // or a loader
+  if (authUser) return <Navigate to="/" replace />;
+  return children;
+}
 
 function AppRouter() {
   useEffect(() => {
@@ -34,13 +50,49 @@ function AppRouter() {
         {/* Add top padding to prevent content from being hidden behind the fixed NavBar */}
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <SignUp />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <PublicRoute>
+                <SignIn />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/Inventory" element={<Inventory />} />
           <Route path="/books/:id" element={<h1>books</h1>} />
           <Route path="/settings" element={<h1>settings</h1>} />
           <Route path="/profile" element={<h1>profile</h1>} />
+          {/* Catch-all route for undefined paths */}
+          <Route
+            path="*"
+            element={
+              <div className="text-center text-2xl text-red-600 py-20 flex flex-col items-center gap-4">
+                traveller you are lost
+                <a
+                  href="/"
+                  className="mt-4 px-6 py-2 bg-accent text-white rounded-full shadow hover:bg-accent/90 transition"
+                >
+                  Go Home
+                </a>
+              </div>
+            }
+          />
         </Routes>
         <Toaster />
       </div>
