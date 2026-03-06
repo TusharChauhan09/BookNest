@@ -44,7 +44,7 @@ async function fetchBooks(startIndex) {
       q: randomQuery,
       maxResults: BATCH_SIZE,
       startIndex,
-      // key: process.env.GOOGLE_BOOKS_API_KEY, // Removed API key for unauthenticated requests
+      key: process.env.GOOGLE_BOOKS_API_KEY, // Removed API key for unauthenticated requests
     },
   });
   return res.data.items || [];

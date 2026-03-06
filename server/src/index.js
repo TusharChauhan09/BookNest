@@ -1,5 +1,5 @@
+import "dotenv/config";
 import express from "express";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -8,8 +8,6 @@ import authRoutes from "./routes/auth.route.js";
 import bookRoutes from "./routes/book.route.js";
 
 import path from "path";
-
-dotenv.config();
 
 const app = express();
 
