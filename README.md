@@ -7,6 +7,7 @@ BookNest is a full-stack web application for managing and discovering books. It 
 ## Features
 
 ### General
+
 - Modern, responsive UI with theme toggle (light/dark mode)
 - User authentication (Sign Up, Sign In, JWT-based sessions)
 - Dashboard for users to manage their books
@@ -15,12 +16,14 @@ BookNest is a full-stack web application for managing and discovering books. It 
 - Loading indicators and error handling
 
 ### User Authentication
+
 - Register new users (`/api/auth/signup`)
 - Login existing users (`/api/auth/signin`)
 - JWT-based authentication and protected routes
 - User session management
 
 ### Book Management
+
 - Add new books (admin/authorized users)
 - View all books in inventory (`/api/books`)
 - View single book details (`/api/books/:id`)
@@ -29,15 +32,18 @@ BookNest is a full-stack web application for managing and discovering books. It 
 - Dashboard for managing user-specific books
 
 ### Cloudinary Integration
+
 - Image upload and management for book covers
 
 ### API Endpoints
 
 #### Auth Endpoints
+
 - `POST /api/auth/signup` — Register a new user
 - `POST /api/auth/signin` — Login and receive JWT
 
 #### Book Endpoints
+
 - `GET /api/books` — Get all books
 - `GET /api/books/:id` — Get details of a single book
 - `POST /api/books` — Add a new book (protected)
@@ -45,10 +51,11 @@ BookNest is a full-stack web application for managing and discovering books. It 
 - `DELETE /api/books/:id` — Delete a book (protected)
 
 #### User-Book Endpoints
+
 - (Assumed) Endpoints for managing user-book relationships (e.g., user dashboard)
 
-
 ## Tech Stack
+
 - **Frontend:** React, Vite, Axios, Custom Hooks, CSS
 - **Backend:** Node.js, Express, MongoDB, Mongoose
 - **Cloud:** Cloudinary (for image uploads)
@@ -58,6 +65,7 @@ BookNest is a full-stack web application for managing and discovering books. It 
 ## Database Schema Reference
 
 ### User
+
 ```js
 {
   _id: ObjectId,
@@ -70,6 +78,7 @@ BookNest is a full-stack web application for managing and discovering books. It 
 ```
 
 ### Book
+
 ```js
 {
   _id: ObjectId,
@@ -86,6 +95,7 @@ BookNest is a full-stack web application for managing and discovering books. It 
 ```
 
 ### UserBook (for user-book relationships, e.g., dashboard)
+
 ```js
 {
   _id: ObjectId,
@@ -102,6 +112,7 @@ BookNest is a full-stack web application for managing and discovering books. It 
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (v16+ recommended)
 - MongoDB instance (local or cloud)
 
@@ -124,6 +135,7 @@ BookNest is a full-stack web application for managing and discovering books. It 
      npm install
      ```
 3. **Configure environment variables:**
+
    - Create `.env` files in both `server/` and `client/` as needed (see sample `.env.example` if provided).
 
 4. **Run the application:**
@@ -163,9 +175,11 @@ BookNest/
 ---
 
 ## Contributing
+
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
 ---
 
 ## License
+
 [MIT](LICENSE)
