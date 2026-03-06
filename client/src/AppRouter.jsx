@@ -33,7 +33,8 @@ function AppRouter() {
   useEffect(() => {
     useTheme.getState().loadTheme();
     useAuth.getState().checkAuth(); // Ensure authUser is set on app load
-  }, []);
+  }
+  , []);
 
   const location = useLocation();
   const hideFooterPrefixes = ["/dashboard", "/signin", "/signup"];
